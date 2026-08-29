@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -9,27 +9,54 @@ import { EASE_ARCHITECTURAL } from "@/components/ui/Motion";
 
 export const HeroSection: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section className="relative min-h-[92vh] sm:min-h-screen flex items-end pb-16 sm:pb-24 pt-32 bg-charcoal-950 text-ivory-50 overflow-hidden">
-      {/* Full-Width Grand Hall Hero Photograph with subtle entrance settlement */}
+      {/* Background Visual Layer: Video with Fallback Photo Poster */}
       <motion.div
-        initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.015 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.1, ease: EASE_ARCHITECTURAL }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 overflow-hidden"
       >
+        {/* Static Fallback / Poster Image — Always mounted for instant paint */}
         <Image
           src="/images/club-gusto/hero/hero-grand-hall.webp"
           alt="The Grand Banquet Hall at Club Gusto"
           fill
-          className="object-cover object-center scale-[1.01]"
+          className={`object-cover object-center scale-[1.01] transition-opacity duration-1000 ${
+            videoLoaded && !shouldReduceMotion ? "opacity-0" : "opacity-100"
+          }`}
           priority
           sizes="100vw"
         />
-        {/* Dark Cinematic Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal-950/80 via-charcoal-950/30 to-transparent" />
+
+        {/* Ambient Atmospheric Video Layer */}
+        {mounted && !shouldReduceMotion && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            onPlaying={() => setVideoLoaded(true)}
+            poster="/images/club-gusto/hero/hero-grand-hall.webp"
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ${
+              videoLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <source src="/videos/hero-grand-hall.mp4" type="video/mp4" />
+          </video>
+        )}
+
+        {/* Dark Cinematic Gradient Overlays for Text Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal-950/85 via-charcoal-950/40 to-transparent pointer-events-none" />
       </motion.div>
 
       {/* Hero Headline & CTA — Orchestrated Entrance */}
