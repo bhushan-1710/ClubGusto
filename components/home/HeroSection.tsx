@@ -55,15 +55,24 @@ export const HeroSection: React.FC = () => {
             Every Guest Hosted.
           </motion.h1>
 
+          <motion.p
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: EASE_ARCHITECTURAL }}
+            className="text-sm sm:text-base text-ivory-200/85 font-sans font-normal max-w-lg leading-relaxed"
+          >
+            Celebrations, weddings and stays in Gomti Nagar, Lucknow.
+          </motion.p>
+
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.55, ease: EASE_ARCHITECTURAL }}
-            className="pt-2"
+            className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4"
           >
             <Link
               href="/contact#enquire"
-              className="group inline-flex items-center px-7 py-3.5 bg-ivory-50 text-charcoal-900 text-xs uppercase tracking-editorial font-semibold rounded-xs hover:bg-ivory-100 transition-colors shadow-md"
+              className="group inline-flex items-center justify-center px-7 py-3.5 bg-ivory-50 text-charcoal-900 text-xs uppercase tracking-editorial font-semibold rounded-xs hover:bg-ivory-100 transition-colors shadow-md"
               style={{ color: "#141211", backgroundColor: "#FAF7F2" }}
             >
               Check Dates & Pricing{" "}
@@ -71,6 +80,13 @@ export const HeroSection: React.FC = () => {
                 className="ml-2 w-3.5 h-3.5 text-charcoal-900 transition-transform duration-200 group-hover:translate-x-1"
                 style={{ color: "#141211" }}
               />
+            </Link>
+
+            <Link
+              href="/the-halls"
+              className="inline-flex items-center justify-center px-6 py-3.5 border border-ivory-50/30 text-ivory-100 text-xs uppercase tracking-editorial font-medium rounded-xs hover:bg-ivory-50/10 transition-colors"
+            >
+              Explore The Halls
             </Link>
           </motion.div>
         </div>
